@@ -1,0 +1,37 @@
+entity Blog {
+	name String required minlength(3),
+	handle String required minlength(2)
+}
+
+entity Entry {
+	title String required,
+	content String required,
+	date ZonedDateTime required
+}
+
+entity Image {
+	title String required,
+	fileName String required,
+    description String,
+    hashFileName String required
+}
+
+entity Tag {
+	name String required minlength(2)
+}
+
+relationship ManyToOne {
+	Blog{user(login)} to User
+}
+
+relationship ManyToOne {
+	Entry{blog(name)} to Blog,
+  	Image{entry} to Entry
+}
+
+relationship ManyToMany {
+	Entry{tag(name)} to Tag{entry}
+   
+}
+
+paginate Entry, Tag with infinite-scroll
